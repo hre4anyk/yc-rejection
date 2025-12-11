@@ -277,6 +277,71 @@
             margin-top: 4px;
         }
         
+        /* Founder Section */
+        .founder-section {
+            padding: 100px 0;
+            background: #ffffff;
+            border-top: 1px solid #f3f4f6;
+        }
+        
+        .founder-content {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 48px;
+            align-items: start;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .founder-image img {
+            width: 200px;
+            height: 200px;
+            border-radius: 16px;
+            object-fit: cover;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .founder-text h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        
+        .founder-role {
+            font-size: 1rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        
+        .founder-bio {
+            font-size: 1.05rem;
+            color: #4b5563;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        
+        .linkedin-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: #0077b5;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 12px;
+            transition: all 0.2s;
+        }
+        
+        .linkedin-link:hover {
+            background: #006399;
+            transform: translateY(-2px);
+        }
+        
         /* Features Section */
         .features {
             padding: 120px 0;
@@ -452,9 +517,9 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <div class="badge">🚀 TRUSTED BY 500+ FOUNDERS</div>
+                <div class="badge">BY AN EX-VC WHO SOURCED A $6B UNICORN</div>
                 <h1>Got Rejected by YC?<br>Get Brutally Honest Feedback.</h1>
-                <h2>Join hundreds of founders getting expert analysis of their YC applications — and exactly what to fix for next time.</h2>
+                <h2>Built by someone who's read thousands of applications. Get the feedback YC never gave you.</h2>
                 
                 <!-- LOOPS.SO FORM INTEGRATION -->
                 <div class="newsletter-form-container">
@@ -493,6 +558,27 @@
                         <div class="stat-number">73%</div>
                         <div class="stat-label">Improved Next Round</div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Founder Section -->
+    <section class="founder-section">
+        <div class="container">
+            <div class="founder-content">
+                <div class="founder-image">
+                    <img src="pictures/Nazar.jpeg" alt="Founder">
+                </div>
+                <div class="founder-text">
+                    <h3>Built by someone who knows what investors actually look for</h3>
+                    <p class="founder-role">Ex-VC Director at Tron • Sourced $6B Unicorn at Seed • Scaled DMarket to 8-Figure Exit</p>
+                    <p class="founder-bio">I've read thousands of startup applications. I've seen what gets funded and what gets rejected. I've watched founders make the same mistakes over and over — mistakes that cost them years of their life.</p>
+                    <p class="founder-bio">YC rejection isn't the end. It's data. But only if you know how to read it. I'm building this to give you the brutally honest feedback that accelerators won't — because helping founders win is better than watching them guess.</p>
+                    <a href="https://linkedin.com/in/hrechanyk/" class="linkedin-link" target="_blank">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        Connect on LinkedIn
+                    </a>
                 </div>
             </div>
         </div>

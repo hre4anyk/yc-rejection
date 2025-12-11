@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Got Rejected by YC? Get Brutally Honest Feedback</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,7 +15,7 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: #1a1a1a;
             background: #ffffff;
@@ -21,184 +24,374 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: #1a1a1a;
         }
         
         /* Hero Section */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="none"/><circle cx="30" cy="30" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>');
-            opacity: 0.3;
+            padding: 120px 0 80px;
+            background: #ffffff;
         }
         
         .hero-content {
-            position: relative;
-            z-index: 1;
-            padding: 60px 0;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #f3f4f6;
+            color: #667eea;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
         }
         
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
             margin-bottom: 24px;
             line-height: 1.1;
+            color: #1a1a1a;
+            letter-spacing: -0.02em;
         }
         
         .hero h2 {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             font-weight: 400;
-            margin-bottom: 40px;
-            opacity: 0.95;
+            margin-bottom: 48px;
+            color: #6b7280;
             max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
         }
         
-        /* Email Form */
-        .email-form {
+        /* Loops Form Integration */
+        .newsletter-form-container {
+            max-width: 500px;
+            margin: 0 auto 48px;
+        }
+        
+        .newsletter-form {
             display: flex;
             gap: 12px;
-            margin-bottom: 30px;
-            max-width: 600px;
+            width: 100%;
         }
         
-        .email-input {
+        .newsletter-form-input {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            font-size: 1rem;
+            margin: 0;
             flex: 1;
-            padding: 18px 24px;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 8px;
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            box-sizing: border-box;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            padding: 16px 20px;
             outline: none;
+            transition: all 0.2s;
         }
         
-        .cta-button {
-            padding: 18px 40px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            background: #1a1a1a;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+        .newsletter-form-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .newsletter-form-button {
+            background: #667eea;
+            font-size: 1rem;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
             white-space: nowrap;
+            height: auto;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
         }
         
-        .cta-button:hover {
+        .newsletter-form-button:hover {
+            background: #5568d3;
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .newsletter-loading-button {
+            background: #667eea;
+            font-size: 1rem;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            display: none;
+            white-space: nowrap;
+            height: auto;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .newsletter-success {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 16px;
+            background: #10b981;
+            border-radius: 10px;
+            margin-top: 12px;
+        }
+        
+        .newsletter-success-message {
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .newsletter-error {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 16px;
+            background: #fee;
+            border-radius: 10px;
+            margin-top: 12px;
+        }
+        
+        .newsletter-error-message {
+            font-family: 'Inter', sans-serif;
+            color: #b91c1c;
+            font-size: 1rem;
+        }
+        
+        .newsletter-back-button {
+            color: #6b7280;
+            font: 0.95rem 'Inter', sans-serif;
+            margin: 16px auto 0;
+            text-align: center;
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .newsletter-back-button:hover {
+            text-decoration: underline;
         }
         
         .social-proof {
             display: flex;
-            gap: 30px;
-            margin-top: 40px;
+            gap: 48px;
+            justify-content: center;
             flex-wrap: wrap;
+            margin-top: 64px;
         }
         
         .stat {
             display: flex;
             flex-direction: column;
+            align-items: center;
         }
         
         .stat-number {
             font-size: 2.5rem;
             font-weight: 700;
+            color: #1a1a1a;
         }
         
         .stat-label {
             font-size: 0.95rem;
-            opacity: 0.9;
+            color: #6b7280;
+            margin-top: 4px;
         }
         
         /* Features Section */
         .features {
-            padding: 100px 0;
-            background: #f8f9fa;
+            padding: 120px 0;
+            background: #f9fafb;
         }
         
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 60px;
+            font-size: 2.75rem;
+            font-weight: 800;
+            margin-bottom: 16px;
             color: #1a1a1a;
+            letter-spacing: -0.02em;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 64px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
         }
         
         .feature-card {
             background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
-            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 48px 36px;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border: 1px solid #f3f4f6;
         }
         
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+            border-color: #e5e7eb;
         }
         
         .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 24px;
         }
         
         .feature-card h3 {
             font-size: 1.5rem;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             color: #1a1a1a;
+            font-weight: 700;
         }
         
         .feature-card p {
-            color: #666;
+            color: #6b7280;
             line-height: 1.7;
+            font-size: 1rem;
         }
         
         /* CTA Section */
         .cta-section {
-            padding: 100px 0;
+            padding: 120px 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             text-align: center;
         }
         
         .cta-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            font-weight: 700;
+            font-size: 3rem;
+            margin-bottom: 16px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
         
         .cta-section p {
-            font-size: 1.3rem;
-            margin-bottom: 40px;
+            font-size: 1.35rem;
+            margin-bottom: 48px;
             opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-section .newsletter-form-button {
+            background: #ffffff;
+            color: #667eea;
+        }
+        
+        .cta-section .newsletter-form-button:hover {
+            background: #f9fafb;
+            transform: translateY(-2px);
         }
         
         /* Footer */
         .footer {
-            padding: 40px 0;
+            padding: 48px 0;
             text-align: center;
             background: #1a1a1a;
-            color: white;
+            color: #9ca3af;
+        }
+        
+        .footer p {
+            font-size: 0.95rem;
         }
         
         /* Responsive */
@@ -208,63 +401,83 @@
             }
             
             .hero h2 {
-                font-size: 1.2rem;
+                font-size: 1.15rem;
             }
             
-            .email-form {
+            .newsletter-form {
                 flex-direction: column;
-            }
-            
-            .cta-button {
-                width: 100%;
             }
             
             .section-title {
                 font-size: 2rem;
             }
             
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+            
             .features-grid {
                 grid-template-columns: 1fr;
             }
-        }
-        
-        /* Success Message */
-        .success-message {
-            display: none;
-            padding: 20px;
-            background: #10b981;
-            color: white;
-            border-radius: 8px;
-            margin-top: 20px;
-            font-weight: 600;
-        }
-        
-        .success-message.show {
-            display: block;
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .social-proof {
+                gap: 32px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <div class="logo-icon"></div>
+                    <span>YC Analysis</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#how-it-works" class="nav-link">How it Works</a>
+                    <a href="#pricing" class="nav-link">Pricing</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
+                <div class="badge">🚀 TRUSTED BY 500+ FOUNDERS</div>
                 <h1>Got Rejected by YC?<br>Get Brutally Honest Feedback.</h1>
-                <h2>Join 500+ founders getting expert analysis of their YC applications — and exactly what to fix for next time.</h2>
+                <h2>Join hundreds of founders getting expert analysis of their YC applications — and exactly what to fix for next time.</h2>
                 
-                <form class="email-form" id="emailForm">
-                    <input 
-                        type="email" 
-                        class="email-input" 
-                        placeholder="Enter your email" 
-                        required
-                        id="emailInput"
-                    >
-                    <button type="submit" class="cta-button">Get Early Access</button>
-                </form>
-                
-                <div class="success-message" id="successMessage">
-                    🎉 Success! Check your email for the next steps.
+                <!-- LOOPS.SO FORM INTEGRATION -->
+                <div class="newsletter-form-container">
+                    <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/cmj1xswu3046v3b0i1u85mc8q" method="POST">
+                        <input 
+                            class="newsletter-form-input" 
+                            placeholder="you@example.com" 
+                            required 
+                            type="email" 
+                            name="email"
+                        >
+                        <button type="submit" class="newsletter-form-button">Get Early Access</button>
+                        <button type="button" class="newsletter-loading-button">Please wait...</button>
+                    </form>
+                    <div class="newsletter-success">
+                        <p class="newsletter-success-message">🎉 Thanks! Check your email for next steps.</p>
+                    </div>
+                    <div class="newsletter-error">
+                        <p class="newsletter-error-message">Oops! Something went wrong, please try again</p>
+                    </div>
+                    <button class='newsletter-back-button' type='button'>
+                        ← Back
+                    </button>
                 </div>
                 
                 <div class="social-proof">
@@ -286,9 +499,10 @@
     </section>
     
     <!-- Features Section -->
-    <section class="features">
+    <section class="features" id="features">
         <div class="container">
             <h2 class="section-title">Why Founders Trust Us</h2>
+            <p class="section-subtitle">Get the feedback YC never gave you, plus a clear path forward.</p>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🎯</div>
@@ -312,17 +526,30 @@
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="container">
-            <h2>Ready to Turn Your Rejection Into Your Comeback?</h2>
+            <h2>Ready to Turn Your Rejection<br>Into Your Comeback?</h2>
             <p>Get instant access to our founder community and application analysis tool.</p>
-            <form class="email-form" id="emailForm2" style="margin: 0 auto;">
-                <input 
-                    type="email" 
-                    class="email-input" 
-                    placeholder="Enter your email" 
-                    required
-                >
-                <button type="submit" class="cta-button">Join Now</button>
-            </form>
+            <div class="newsletter-form-container">
+                <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/cmj1xswu3046v3b0i1u85mc8q" method="POST">
+                    <input 
+                        class="newsletter-form-input" 
+                        placeholder="you@example.com" 
+                        required 
+                        type="email" 
+                        name="email"
+                    >
+                    <button type="submit" class="newsletter-form-button">Join Waitlist</button>
+                    <button type="button" class="newsletter-loading-button">Please wait...</button>
+                </form>
+                <div class="newsletter-success">
+                    <p class="newsletter-success-message">🎉 Thanks! We'll be in touch!</p>
+                </div>
+                <div class="newsletter-error">
+                    <p class="newsletter-error-message">Oops! Something went wrong, please try again</p>
+                </div>
+                <button class='newsletter-back-button' type='button'>
+                    ← Back
+                </button>
+            </div>
         </div>
     </section>
     
@@ -333,44 +560,114 @@
         </div>
     </footer>
     
+    <!-- LOOPS.SO JAVASCRIPT -->
     <script>
-        // Increment application counter
+        // Counter animation
         let count = 247;
         setInterval(() => {
             count += Math.floor(Math.random() * 2);
-            document.getElementById('applicationsCount').textContent = count;
+            const counterEl = document.getElementById('applicationsCount');
+            if (counterEl) counterEl.textContent = count;
         }, 30000);
-        
-        // Handle form submissions
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            const email = e.target.querySelector('input[type="email"]').value;
-            
-            // Here you would integrate with your email service
-            // For now, we'll just show a success message
-            console.log('Email submitted:', email);
-            
-            // Show success message
-            document.getElementById('successMessage').classList.add('show');
-            
-            // Reset form
-            e.target.reset();
-            
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                document.getElementById('successMessage').classList.remove('show');
-            }, 5000);
-            
-            // TODO: Integrate with email service (Loops, Beehiiv, ConvertKit, etc.)
-            // Example: 
-            // fetch('YOUR_EMAIL_SERVICE_API', {
-            //     method: 'POST',
-            //     body: JSON.stringify({ email: email })
-            // });
+
+        // Loops.so form handling
+        function submitHandler(event) {
+            event.preventDefault();
+            var container = event.target.closest('.newsletter-form-container');
+            var form = container.querySelector(".newsletter-form");
+            var formInput = container.querySelector(".newsletter-form-input");
+            var success = container.querySelector(".newsletter-success");
+            var errorContainer = container.querySelector(".newsletter-error");
+            var errorMessage = container.querySelector(".newsletter-error-message");
+            var backButton = container.querySelector(".newsletter-back-button");
+            var submitButton = container.querySelector(".newsletter-form-button");
+            var loadingButton = container.querySelector(".newsletter-loading-button");
+
+            const rateLimit = () => {
+                errorContainer.style.display = "flex";
+                errorMessage.innerText = "Too many signups, please try again in a little while";
+                submitButton.style.display = "none";
+                formInput.style.display = "none";
+                backButton.style.display = "block";
+            }
+
+            var time = new Date();
+            var timestamp = time.valueOf();
+            var previousTimestamp = localStorage.getItem("loops-form-timestamp");
+
+            if (previousTimestamp && Number(previousTimestamp) + 60000 > timestamp) {
+                rateLimit();
+                return;
+            }
+            localStorage.setItem("loops-form-timestamp", timestamp);
+
+            submitButton.style.display = "none";
+            loadingButton.style.display = "flex";
+
+            var formBody = "userGroup=&mailingLists=&email=" + encodeURIComponent(formInput.value);
+
+            fetch(event.target.action, {
+                method: "POST",
+                body: formBody,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            })
+            .then((res) => [res.ok, res.json(), res])
+            .then(([ok, dataPromise, res]) => {
+                if (ok) {
+                    success.style.display = "flex";
+                    form.reset();
+                } else {
+                    dataPromise.then(data => {
+                        errorContainer.style.display = "flex";
+                        errorMessage.innerText = data.message ? data.message : res.statusText;
+                    });
+                }
+            })
+            .catch(error => {
+                if (error.message === "Failed to fetch") {
+                    rateLimit();
+                    return;
+                }
+                errorContainer.style.display = "flex";
+                if (error.message) errorMessage.innerText = error.message;
+                localStorage.setItem("loops-form-timestamp", '');
+            })
+            .finally(() => {
+                formInput.style.display = "none";
+                loadingButton.style.display = "none";
+                backButton.style.display = "block";
+            });
         }
-        
-        document.getElementById('emailForm').addEventListener('submit', handleFormSubmit);
-        document.getElementById('emailForm2').addEventListener('submit', handleFormSubmit);
+
+        function resetFormHandler(event) {
+            var container = event.target.closest('.newsletter-form-container');
+            var formInput = container.querySelector(".newsletter-form-input");
+            var success = container.querySelector(".newsletter-success");
+            var errorContainer = container.querySelector(".newsletter-error");
+            var errorMessage = container.querySelector(".newsletter-error-message");
+            var backButton = container.querySelector(".newsletter-back-button");
+            var submitButton = container.querySelector(".newsletter-form-button");
+
+            success.style.display = "none";
+            errorContainer.style.display = "none";
+            errorMessage.innerText = "Oops! Something went wrong, please try again";
+            backButton.style.display = "none";
+            formInput.style.display = "flex";
+            submitButton.style.display = "flex";
+        }
+
+        // Initialize all forms
+        var formContainers = document.getElementsByClassName("newsletter-form-container");
+        for (var i = 0; i < formContainers.length; i++) {
+            var formContainer = formContainers[i];
+            var handlersAdded = formContainer.classList.contains('newsletter-handlers-added');
+            if (handlersAdded) continue;
+            formContainer.querySelector(".newsletter-form").addEventListener("submit", submitHandler);
+            formContainer.querySelector(".newsletter-back-button").addEventListener("click", resetFormHandler);
+            formContainer.classList.add("newsletter-handlers-added");
+        }
     </script>
 </body>
 </html>

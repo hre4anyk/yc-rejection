@@ -3,521 +3,1330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Got Rejected by YC? Get Brutally Honest Feedback</title>
+    <title>Regata — Close High-Intent Leads Before They Bounce</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&display=swap');
+        
+        :root {
+            --bg-void: #0B0B0F;
+            --bg-surface: #141419;
+            --bg-elevated: #1C1C24;
+            --text-primary: #FFFFFF;
+            --text-muted: #7A7A85;
+            --text-dim: #4A4A52;
+            --accent-mint: #00FF94;
+            --accent-coral: #FF3366;
+            --accent-amber: #FFB800;
+            --border-subtle: rgba(255,255,255,0.06);
+            --border-medium: rgba(255,255,255,0.12);
+            --gradient-glow: radial-gradient(ellipse at 50% 0%, rgba(0,255,148,0.08) 0%, transparent 60%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background: #ffffff;
+
+        html {
+            scroll-behavior: smooth;
         }
-        
+
+        body {
+            font-family: 'Satoshi', -apple-system, sans-serif;
+            background: var(--bg-void);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Clash Display', 'Satoshi', sans-serif;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Utility */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
         }
-        
-        /* Navigation */
-        .navbar {
-            background: #ffffff;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.9);
+
+        .accent { color: var(--accent-mint); }
+        .coral { color: var(--accent-coral); }
+        .muted { color: var(--text-muted); }
+        .dim { color: var(--text-dim); }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
-        .nav-content {
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes ping {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            75%, 100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            background: rgba(11, 11, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        nav .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
+            font-family: 'Clash Display', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
-            color: #1a1a1a;
+            color: var(--text-primary);
+            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        
-        .logo-icon {
+
+        .logo-mark {
             width: 32px;
             height: 32px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--accent-mint);
             border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
+
+        .logo-mark svg {
+            width: 18px;
+            height: 18px;
+        }
+
         .nav-links {
             display: flex;
-            gap: 32px;
+            gap: 40px;
             align-items: center;
         }
-        
-        .nav-link {
-            color: #6b7280;
+
+        .nav-links a {
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 500;
             transition: color 0.2s;
         }
-        
-        .nav-link:hover {
-            color: #1a1a1a;
+
+        .nav-links a:hover {
+            color: var(--text-primary);
         }
-        
+
+        .nav-cta {
+            background: var(--text-primary);
+            color: var(--bg-void);
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent-mint);
+            color: var(--bg-void);
+            transform: translateY(-1px);
+        }
+
         /* Hero Section */
         .hero {
-            padding: 120px 0 80px;
-            background: #ffffff;
-        }
-        
-        .hero-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 8px 16px;
-            background: #f3f4f6;
-            color: #667eea;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 24px;
-            letter-spacing: 0.5px;
-        }
-        
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 24px;
-            line-height: 1.1;
-            color: #1a1a1a;
-            letter-spacing: -0.02em;
-        }
-        
-        .hero h2 {
-            font-size: 1.35rem;
-            font-weight: 400;
-            margin-bottom: 48px;
-            color: #6b7280;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-        
-        /* Loops Form Integration */
-        .newsletter-form-container {
-            max-width: 500px;
-            margin: 0 auto 48px;
-        }
-        
-        .newsletter-form {
+            min-height: 100vh;
             display: flex;
-            gap: 12px;
-            width: 100%;
-        }
-        
-        .newsletter-form-input {
-            font-family: 'Inter', sans-serif;
-            color: #1a1a1a;
-            font-size: 1rem;
-            margin: 0;
-            flex: 1;
-            background: #ffffff;
-            border: 2px solid #e5e7eb;
-            box-sizing: border-box;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            border-radius: 10px;
-            padding: 16px 20px;
-            outline: none;
-            transition: all 0.2s;
-        }
-        
-        .newsletter-form-input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .newsletter-form-button {
-            background: #667eea;
-            font-size: 1rem;
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            white-space: nowrap;
-            height: auto;
             align-items: center;
-            justify-content: center;
-            padding: 16px 32px;
-            box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
-            border-radius: 10px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
+            padding: 140px 0 80px;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .newsletter-form-button:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: var(--gradient-glow);
+            pointer-events: none;
         }
-        
-        .newsletter-loading-button {
-            background: #667eea;
-            font-size: 1rem;
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            display: none;
-            white-space: nowrap;
-            height: auto;
-            align-items: center;
-            justify-content: center;
-            padding: 16px 32px;
-            box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
-            border-radius: 10px;
-            font-weight: 600;
-            border: none;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        
-        .newsletter-success {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 16px;
-            background: #10b981;
-            border-radius: 10px;
-            margin-top: 12px;
-        }
-        
-        .newsletter-success-message {
-            font-family: 'Inter', sans-serif;
-            color: #ffffff;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        
-        .newsletter-error {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 16px;
-            background: #fee;
-            border-radius: 10px;
-            margin-top: 12px;
-        }
-        
-        .newsletter-error-message {
-            font-family: 'Inter', sans-serif;
-            color: #b91c1c;
-            font-size: 1rem;
-        }
-        
-        .newsletter-back-button {
-            color: #6b7280;
-            font: 0.95rem 'Inter', sans-serif;
-            margin: 16px auto 0;
-            text-align: center;
-            display: none;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-        
-        .newsletter-back-button:hover {
-            text-decoration: underline;
-        }
-        
-        .social-proof {
-            display: flex;
-            gap: 48px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 64px;
-        }
-        
-        .stat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-        
-        .stat-label {
-            font-size: 0.95rem;
-            color: #6b7280;
-            margin-top: 4px;
-        }
-        
-        /* Founder Section */
-        .founder-section {
-            padding: 100px 0;
-            background: #ffffff;
-            border-top: 1px solid #f3f4f6;
-        }
-        
-        .founder-content {
+
+        .hero-grid {
             display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 48px;
-            align-items: start;
-            max-width: 900px;
-            margin: 0 auto;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
         }
-        
-        .founder-image img {
-            width: 200px;
-            height: 200px;
-            border-radius: 16px;
-            object-fit: cover;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+
+        .hero-content {
+            animation: fadeInUp 0.8s ease-out;
         }
-        
-        .founder-text h3 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 12px;
-            line-height: 1.3;
-        }
-        
-        .founder-role {
-            font-size: 1rem;
-            color: #667eea;
-            font-weight: 600;
-            margin-bottom: 24px;
-        }
-        
-        .founder-bio {
-            font-size: 1.05rem;
-            color: #4b5563;
-            line-height: 1.7;
-            margin-bottom: 16px;
-        }
-        
-        .linkedin-link {
+
+        .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 24px;
-            background: #0077b5;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            margin-top: 12px;
-            transition: all 0.2s;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-medium);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
         }
-        
-        .linkedin-link:hover {
-            background: #006399;
-            transform: translateY(-2px);
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-mint);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
-        
-        /* Features Section */
-        .features {
-            padding: 120px 0;
-            background: #f9fafb;
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        .section-title {
-            text-align: center;
-            font-size: 2.75rem;
-            font-weight: 800;
-            margin-bottom: 16px;
-            color: #1a1a1a;
-            letter-spacing: -0.02em;
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-mint) 0%, #00CC77 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
         }
-        
-        .section-subtitle {
-            text-align: center;
+
+        .hero-subtitle {
             font-size: 1.25rem;
-            color: #6b7280;
-            margin-bottom: 64px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            color: var(--text-muted);
+            max-width: 480px;
+            margin-bottom: 40px;
+            line-height: 1.7;
         }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+
+        .hero-ctas {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent-mint);
+            color: var(--bg-void);
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 255, 148, 0.2);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--text-primary);
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            border: 1px solid var(--border-medium);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-surface);
+            border-color: var(--text-muted);
+        }
+
+        .trust-logos {
+            display: flex;
+            align-items: center;
             gap: 32px;
         }
-        
-        .feature-card {
-            background: white;
-            padding: 48px 36px;
+
+        .trust-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .trust-logos .logos {
+            display: flex;
+            gap: 24px;
+            opacity: 0.4;
+        }
+
+        .trust-logos .logos span {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Live Visitor Demo */
+        .hero-demo {
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .demo-window {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-medium);
             border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+        }
+
+        .demo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            background: var(--bg-elevated);
+        }
+
+        .demo-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .demo-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .demo-dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-medium);
+        }
+
+        .demo-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .demo-live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--accent-mint);
+            font-weight: 500;
+        }
+
+        .demo-live .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-mint);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        .demo-content {
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        .visitor-stream {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .visitor-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: var(--bg-void);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
             transition: all 0.3s;
-            border: 1px solid #f3f4f6;
+            animation: slideInRight 0.4s ease-out both;
         }
-        
-        .feature-card:hover {
+
+        .visitor-card.hot {
+            border-color: var(--accent-coral);
+            background: rgba(255, 51, 102, 0.05);
+        }
+
+        .visitor-card.hot .visitor-status {
+            color: var(--accent-coral);
+        }
+
+        .visitor-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .visitor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--bg-elevated);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .visitor-info h4 {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .visitor-info p {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .visitor-right {
+            text-align: right;
+        }
+
+        .visitor-page {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .visitor-status {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+        }
+
+        .visitor-status .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        /* Notification popup */
+        .notification-popup {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--accent-mint);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,255,148,0.1);
+            animation: slideInRight 0.4s ease-out;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.4s ease-out;
+        }
+
+        .notification-popup.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 148, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-mint);
+        }
+
+        .notification-content h4 {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .notification-content p {
+            font-size: 0.8rem;
+            color: var(--accent-mint);
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--accent-mint);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--accent-mint);
+        }
+
+        .problem h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            max-width: 800px;
+            margin-bottom: 64px;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .problem-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+
+        .problem-card:hover {
+            border-color: var(--border-medium);
             transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-            border-color: #e5e7eb;
         }
-        
-        .feature-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+
+        .problem-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 51, 102, 0.1);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.75rem;
+            margin-bottom: 24px;
+            color: var(--accent-coral);
+        }
+
+        .problem-card h3 {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .problem-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Solution Section */
+        .solution {
+            padding: 120px 0;
+            background: var(--bg-surface);
+            position: relative;
+        }
+
+        .solution::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 50% 0%, rgba(0,255,148,0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .solution h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
             margin-bottom: 24px;
         }
-        
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-            color: #1a1a1a;
-            font-weight: 700;
+
+        .solution-text {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
         }
-        
-        .feature-card p {
-            color: #6b7280;
-            line-height: 1.7;
+
+        .solution-features {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .solution-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .solution-feature-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(0, 255, 148, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-mint);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .solution-feature h4 {
+            font-family: 'Satoshi', sans-serif;
             font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
         }
-        
-        /* CTA Section */
-        .cta-section {
+
+        .solution-feature p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .solution-visual {
+            position: relative;
+        }
+
+        .solution-mockup {
+            background: var(--bg-void);
+            border: 1px solid var(--border-medium);
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+        }
+
+        .mockup-stat {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .mockup-stat:last-child {
+            border-bottom: none;
+        }
+
+        .mockup-stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .mockup-stat-value {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .mockup-stat-value.positive {
+            color: var(--accent-mint);
+        }
+
+        .mockup-stat-value.negative {
+            color: var(--accent-coral);
+        }
+
+        /* How It Works */
+        .how-it-works {
             padding: 120px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
         }
-        
-        .cta-section h2 {
-            font-size: 3rem;
+
+        .how-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 80px;
+        }
+
+        .how-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
             margin-bottom: 16px;
-            font-weight: 800;
-            letter-spacing: -0.02em;
         }
-        
-        .cta-section p {
-            font-size: 1.35rem;
-            margin-bottom: 48px;
-            opacity: 0.95;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+
+        .how-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
         }
-        
-        .cta-section .newsletter-form-button {
-            background: #ffffff;
-            color: #667eea;
+
+        .how-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            position: relative;
         }
-        
-        .cta-section .newsletter-form-button:hover {
-            background: #f9fafb;
-            transform: translateY(-2px);
+
+        .how-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 60px;
+            right: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-mint) 0%, var(--border-medium) 100%);
         }
-        
-        /* Footer */
-        .footer {
-            padding: 48px 0;
+
+        .how-step {
             text-align: center;
-            background: #1a1a1a;
-            color: #9ca3af;
+            position: relative;
         }
-        
-        .footer p {
+
+        .how-step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-surface);
+            border: 2px solid var(--accent-mint);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-mint);
+            position: relative;
+            z-index: 1;
+        }
+
+        .how-step h3 {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .how-step p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Social Proof */
+        .social-proof {
+            padding: 120px 0;
+            background: var(--bg-surface);
+        }
+
+        .proof-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .proof-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 16px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+
+        .metric-card {
+            background: var(--bg-void);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            border-color: var(--accent-mint);
+            transform: translateY(-4px);
+        }
+
+        .metric-value {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-mint);
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-void);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--border-medium);
+        }
+
+        .testimonial-quote {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-mint) 0%, var(--accent-coral) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--bg-void);
+        }
+
+        .testimonial-info h4 {
+            font-family: 'Satoshi', sans-serif;
             font-size: 0.95rem;
+            font-weight: 600;
         }
-        
+
+        .testimonial-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Differentiators */
+        .differentiators {
+            padding: 120px 0;
+        }
+
+        .diff-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 64px;
+        }
+
+        .diff-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 16px;
+        }
+
+        .comparison-table {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-medium);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .comparison-header div {
+            padding: 24px 32px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .comparison-header div:nth-child(2) {
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .comparison-header div:nth-child(3) {
+            text-align: center;
+            color: var(--accent-mint);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-row div {
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+        }
+
+        .comparison-row div:nth-child(1) {
+            color: var(--text-muted);
+        }
+
+        .comparison-row div:nth-child(2),
+        .comparison-row div:nth-child(3) {
+            justify-content: center;
+        }
+
+        .check-icon {
+            color: var(--accent-mint);
+        }
+
+        .x-icon {
+            color: var(--text-dim);
+        }
+
+        /* Integrations */
+        .integrations {
+            padding: 80px 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .integrations-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .integrations-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .integrations-logos {
+            display: flex;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .integration-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .integration-logo:hover {
+            opacity: 1;
+        }
+
+        .integration-logo svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 120px 0;
+            background: var(--bg-surface);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0,255,148,0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .cta-content {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 24px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 48px;
+        }
+
+        .cta-form {
+            display: flex;
+            gap: 12px;
+            max-width: 500px;
+            margin: 0 auto 24px;
+        }
+
+        .cta-form input {
+            flex: 1;
+            background: var(--bg-void);
+            border: 1px solid var(--border-medium);
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Satoshi', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .cta-form input:focus {
+            outline: none;
+            border-color: var(--accent-mint);
+        }
+
+        .cta-form input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .cta-alternative {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .cta-alternative a {
+            color: var(--accent-mint);
+            text-decoration: none;
+        }
+
+        .cta-alternative a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 0 40px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 64px;
+            margin-bottom: 64px;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 16px;
+            max-width: 280px;
+            line-height: 1.7;
+        }
+
+        .footer-column h4 {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column ul a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .footer-column ul a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-bottom p {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .footer-badges {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            background: var(--bg-surface);
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
         /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
             }
-            
-            .hero h2 {
-                font-size: 1.15rem;
+
+            .solution-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
             }
-            
-            .newsletter-form {
-                flex-direction: column;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .cta-section h2 {
-                font-size: 2rem;
-            }
-            
-            .features-grid {
+
+            .problem-grid {
                 grid-template-columns: 1fr;
             }
-            
+
+            .how-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .how-steps::before {
+                display: none;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-            
-            .founder-content {
+
+            .hero {
+                padding: 120px 0 60px;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+            }
+
+            .trust-logos {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .how-steps {
                 grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                overflow-x: auto;
+            }
+
+            .cta-form {
+                flex-direction: column;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
                 text-align: center;
-                gap: 32px;
             }
-            
-            .founder-image {
-                margin: 0 auto;
+
+            .integrations-content {
+                flex-direction: column;
+                gap: 24px;
             }
-            
-            .founder-image img {
-                margin: 0 auto;
+
+            .integrations-logos {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 24px;
             }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav>
         <div class="container">
-            <div class="nav-content">
-                <div class="logo">
-                    <div class="logo-icon"></div>
-                    <span>YC Camp</span>
+            <a href="#" class="logo">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
                 </div>
-                <div class="nav-links">
-                    <a href="#features" class="nav-link">Features</a>
-                    <a href="#how-it-works" class="nav-link">How it Works</a>
-                </div>
+                regata
+            </a>
+            <div class="nav-links">
+                <a href="#how-it-works">How It Works</a>
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#" class="nav-cta">Get Early Access</a>
             </div>
         </div>
     </nav>
@@ -525,245 +1334,554 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <div class="hero-content">
-                <div class="badge">BY AN EX-VC WHO SOURCED A $6B UNICORN</div>
-                <h1>Got Rejected by YC?<br>Get Brutally Honest Feedback.</h1>
-                <h2>Built by someone who's read thousands of applications. Get the feedback YC never gave you.</h2>
-                
-                <!-- LOOPS.SO FORM INTEGRATION -->
-                <div class="newsletter-form-container">
-                    <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/cmj1xswu3046v3b0i1u85mc8q" method="POST">
-                        <input 
-                            class="newsletter-form-input" 
-                            placeholder="you@example.com" 
-                            required 
-                            type="email" 
-                            name="email"
-                        >
-                        <button type="submit" class="newsletter-form-button">Get Early Access</button>
-                        <button type="button" class="newsletter-loading-button">Please wait...</button>
-                    </form>
-                    <div class="newsletter-success">
-                        <p class="newsletter-success-message">🎉 Thanks! Check your email for next steps.</p>
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="dot"></span>
+                        <span class="mono">Live visitor tracking</span>
                     </div>
-                    <div class="newsletter-error">
-                        <p class="newsletter-error-message">Oops! Something went wrong, please try again</p>
+                    <h1>Close high-intent leads <span class="highlight">while they're still deciding</span></h1>
+                    <p class="hero-subtitle">Your hottest prospects are on your site right now. Regata identifies them in real-time and alerts you before they bounce — so you can engage when intent peaks.</p>
+                    <div class="hero-ctas">
+                        <a href="#cta" class="btn-primary">
+                            Get Early Access
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="#how-it-works" class="btn-secondary">
+                            See How It Works
+                        </a>
                     </div>
-                    <button class='newsletter-back-button' type='button'>
-                        ← Back
-                    </button>
+                    <div class="trust-logos">
+                        <span class="trust-label">Trusted by teams at</span>
+                        <div class="logos">
+                            <span>YC W24</span>
+                            <span>Techstars</span>
+                            <span>500 Global</span>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="social-proof">
-                    <div class="stat">
-                        <div class="stat-number" id="applicationsCount">47</div>
-                        <div class="stat-label">Applications Analyzed</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">4.9/5</div>
-                        <div class="stat-label">Founder Rating</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">$2Mn</div>
-                        <div class="stat-label">Average YC Round</div>
+                <div class="hero-demo">
+                    <div class="demo-window">
+                        <div class="demo-header">
+                            <div class="demo-header-left">
+                                <div class="demo-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <span class="demo-title">Active Visitors</span>
+                            </div>
+                            <div class="demo-live">
+                                <span class="dot"></span>
+                                Live
+                            </div>
+                        </div>
+                        <div class="demo-content">
+                            <div class="visitor-stream" id="visitorStream">
+                                <!-- Visitors will be injected here -->
+                            </div>
+                        </div>
+                        <div class="notification-popup" id="notification">
+                            <div class="notification-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 17H2a3 3 0 003-3V9a7 7 0 0114 0v5a3 3 0 003 3zm-8.27 4a2 2 0 01-3.46 0"/>
+                                </svg>
+                            </div>
+                            <div class="notification-content">
+                                <h4>🔥 High-Intent Lead Detected</h4>
+                                <p>Sarah from Stripe is ready to buy</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Founder Section -->
-    <section class="founder-section">
+
+    <!-- Problem Section -->
+    <section class="problem">
         <div class="container">
-            <div class="founder-content">
-                <div class="founder-image">
-                    <img src="pictures/Nazar.jpeg" alt="Nazar Hrechanyk">
+            <span class="section-label animate-on-scroll">The Problem</span>
+            <h2 class="animate-on-scroll">Modern GTM is broken. You're drowning in tools that give you names — but not <span class="coral">real conversations</span>.</h2>
+            <div class="problem-grid">
+                <div class="problem-card animate-on-scroll">
+                    <div class="problem-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <h3>The Engagement Gap</h3>
+                    <p>Every minute between interest and engagement means lost revenue. High-intent traffic hits your site, but you're nowhere to be found. By the time you respond, they've already chosen your competitor.</p>
                 </div>
-                <div class="founder-text">
-                    <h3>Built by someone who knows what investors actually look for</h3>
-                    <p class="founder-role">Ex-VC Director at Tron • Sourced $6B Unicorn at Seed • Scaled DMarket to 8-Figure Exit</p>
-                    <p class="founder-bio">I've read thousands of startup applications. I've seen what gets funded and what gets rejected. I've watched founders make the same mistakes over and over — mistakes that cost them years of their life.</p>
-                    <p class="founder-bio">YC, Speedrun or EWOR rejection isn't the end. It's a starting point. I'm building GritCamp to turn rejection into rocket fuel: first, brutally honest feedback on what went wrong. Then, a community of founders who move fast, ship hard, and help each other win.</p>
-                    <p class="founder-bio">No theory. No fluff. Just motion, velocity, and founders who refuse to stay rejected.</p>
-                    <a href="https://www.linkedin.com/in/hrechanyk/" class="linkedin-link" target="_blank">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                        Connect on LinkedIn
-                    </a>
+                <div class="problem-card animate-on-scroll">
+                    <div class="problem-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0110 0v4"/>
+                        </svg>
+                    </div>
+                    <h3>The "Contact Sales" Trap</h3>
+                    <p>Forcing ready-to-buy visitors to fill out forms and wait days for a response? That's not a funnel — it's a leak. Scheduling friction, no-shows, and cold leads pile up while hot ones slip away.</p>
+                </div>
+                <div class="problem-card animate-on-scroll">
+                    <div class="problem-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                        </svg>
+                    </div>
+                    <h3>Retrospective Analytics</h3>
+                    <p>Your PM is analyzing what went wrong long after the user left. Hotjar and PostHog show you the past. But the past can't buy from you. You need to act in the present.</p>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Features Section -->
-    <section class="features" id="features">
+
+    <!-- Solution Section -->
+    <section class="solution">
         <div class="container">
-            <h2 class="section-title">Why Founders Trust Us</h2>
-            <p class="section-subtitle">Get the feedback YC never gave you, plus a clear path forward.</p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Brutally Honest Analysis</h3>
-                    <p>No sugar-coating. We tell you exactly what YC partners see wrong with your application and why it got rejected.</p>
+            <div class="solution-grid">
+                <div class="solution-content animate-on-scroll">
+                    <span class="section-label">The Solution</span>
+                    <h2>Compress your response time to <span class="accent">near-zero</span></h2>
+                    <p class="solution-text">Regata tracks every visitor session in real-time. The moment someone shows high-intent behavior — deep scroll, pricing page visits, repeated returns — you get an instant notification. Engage while they're still deciding.</p>
+                    <div class="solution-features">
+                        <div class="solution-feature">
+                            <div class="solution-feature-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4>Instant Lead Qualification</h4>
+                                <p>AI scores intent in real-time based on behavior patterns</p>
+                            </div>
+                        </div>
+                        <div class="solution-feature">
+                            <div class="solution-feature-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4>Real-Time Session Tracking</h4>
+                                <p>See exactly what they're looking at, right now</p>
+                            </div>
+                        </div>
+                        <div class="solution-feature">
+                            <div class="solution-feature-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                                    <path d="M22 4L12 14.01l-3-3"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4>Close Before They Bounce</h4>
+                                <p>Engage via Slack, email, or live chat — your choice</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Actionable Feedback</h3>
-                    <p>Get a clear roadmap of what to fix, improve, and emphasize before your next application cycle.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
-                    <h3>Founder Community</h3>
-                    <p>Connect with other rejected founders who are building, learning, and supporting each other toward success.</p>
+                <div class="solution-visual animate-on-scroll">
+                    <div class="solution-mockup">
+                        <div class="mockup-stat">
+                            <span class="mockup-stat-label">Average Response Time</span>
+                            <span class="mockup-stat-value positive">< 30 sec</span>
+                        </div>
+                        <div class="mockup-stat">
+                            <span class="mockup-stat-label">Lead Conversion Lift</span>
+                            <span class="mockup-stat-value positive">+340%</span>
+                        </div>
+                        <div class="mockup-stat">
+                            <span class="mockup-stat-label">Bounce Rate Reduction</span>
+                            <span class="mockup-stat-value positive">-62%</span>
+                        </div>
+                        <div class="mockup-stat">
+                            <span class="mockup-stat-label">Time to First Contact</span>
+                            <span class="mockup-stat-value negative">Before → Now</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="how-header animate-on-scroll">
+                <span class="section-label">How It Works</span>
+                <h2>From visitor to conversation in 4 steps</h2>
+                <p>No complex setup. No engineering time. Just paste a script and start closing.</p>
+            </div>
+            <div class="how-steps">
+                <div class="how-step animate-on-scroll">
+                    <div class="how-step-number">1</div>
+                    <h3>Install the Pixel</h3>
+                    <p>One line of JavaScript. 30 seconds to deploy. Works with any stack.</p>
+                </div>
+                <div class="how-step animate-on-scroll">
+                    <div class="how-step-number">2</div>
+                    <h3>Track Behavior</h3>
+                    <p>We monitor scroll depth, page views, time on site, and return visits.</p>
+                </div>
+                <div class="how-step animate-on-scroll">
+                    <div class="how-step-number">3</div>
+                    <h3>Score Intent</h3>
+                    <p>Our AI qualifies leads in real-time based on behavioral patterns.</p>
+                </div>
+                <div class="how-step animate-on-scroll">
+                    <div class="how-step-number">4</div>
+                    <h3>Get Notified</h3>
+                    <p>Hot lead detected? Instant alert to Slack, email, or your CRM.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="social-proof" id="features">
+        <div class="container">
+            <div class="proof-header animate-on-scroll">
+                <span class="section-label">Results</span>
+                <h2>Built for founders who close deals themselves</h2>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric-card animate-on-scroll">
+                    <div class="metric-value">340%</div>
+                    <div class="metric-label">Average conversion lift</div>
+                </div>
+                <div class="metric-card animate-on-scroll">
+                    <div class="metric-value">< 30s</div>
+                    <div class="metric-label">Time to first response</div>
+                </div>
+                <div class="metric-card animate-on-scroll">
+                    <div class="metric-value">62%</div>
+                    <div class="metric-label">Reduction in bounce rate</div>
+                </div>
+                <div class="metric-card animate-on-scroll">
+                    <div class="metric-value">5 min</div>
+                    <div class="metric-label">Setup to first alert</div>
+                </div>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card animate-on-scroll">
+                    <p class="testimonial-quote">"We closed a $48K deal because Regata pinged me while the prospect was still on our pricing page. I jumped on a Loom, sent it over, and had the contract signed that day."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JM</div>
+                        <div class="testimonial-info">
+                            <h4>Jake Morrison</h4>
+                            <p>Founder, DataSync (YC W23)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate-on-scroll">
+                    <p class="testimonial-quote">"PostHog shows me what happened yesterday. Regata shows me what's happening now. It's the difference between autopsies and surgery."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SK</div>
+                        <div class="testimonial-info">
+                            <h4>Sarah Kim</h4>
+                            <p>Head of Growth, Codeflow</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate-on-scroll">
+                    <p class="testimonial-quote">"I was drowning in Hubspot contacts that went nowhere. Now I only talk to people who are actually ready to buy. My close rate tripled."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AR</div>
+                        <div class="testimonial-info">
+                            <h4>Alex Rivera</h4>
+                            <p>CEO, Metricly</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Differentiators -->
+    <section class="differentiators">
+        <div class="container">
+            <div class="diff-header animate-on-scroll">
+                <span class="section-label">Why Regata</span>
+                <h2>Not another analytics tool</h2>
+            </div>
+            <div class="comparison-table animate-on-scroll">
+                <div class="comparison-header">
+                    <div>Feature</div>
+                    <div>Traditional Tools</div>
+                    <div>Regata</div>
+                </div>
+                <div class="comparison-row">
+                    <div>Real-time visitor alerts</div>
+                    <div><span class="x-icon">✕</span></div>
+                    <div><span class="check-icon">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div>AI intent scoring</div>
+                    <div><span class="x-icon">✕</span></div>
+                    <div><span class="check-icon">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div>Slack/Email notifications</div>
+                    <div><span class="x-icon">✕</span></div>
+                    <div><span class="check-icon">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div>Session recordings</div>
+                    <div><span class="check-icon">✓</span></div>
+                    <div><span class="check-icon">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div>Live visitor identification</div>
+                    <div><span class="x-icon">✕</span></div>
+                    <div><span class="check-icon">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div>5-minute setup</div>
+                    <div><span class="x-icon">✕</span></div>
+                    <div><span class="check-icon">✓</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations -->
+    <section class="integrations">
+        <div class="container">
+            <div class="integrations-content">
+                <span class="integrations-label">Integrates with your stack</span>
+                <div class="integrations-logos">
+                    <div class="integration-logo">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 01-2.52 2.523A2.528 2.528 0 010 15.165a2.527 2.527 0 012.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 012.521-2.52 2.527 2.527 0 012.521 2.52v6.313A2.528 2.528 0 018.834 24a2.528 2.528 0 01-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 01-2.521-2.52A2.528 2.528 0 018.834 0a2.528 2.528 0 012.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 012.521 2.521 2.528 2.528 0 01-2.521 2.521H2.522A2.528 2.528 0 010 8.834a2.528 2.528 0 012.522-2.521h6.312zm10.124 2.521a2.528 2.528 0 012.522-2.521A2.528 2.528 0 0124 8.834a2.528 2.528 0 01-2.52 2.521h-2.522V8.834zm-1.271 0a2.528 2.528 0 01-2.521 2.521 2.528 2.528 0 01-2.521-2.521V2.522A2.528 2.528 0 0115.166 0a2.528 2.528 0 012.521 2.522v6.312zm-2.521 10.124a2.528 2.528 0 012.521 2.522A2.528 2.528 0 0115.166 24a2.528 2.528 0 01-2.521-2.52v-2.522h2.521zm0-1.271a2.528 2.528 0 01-2.521-2.521 2.528 2.528 0 012.521-2.521h6.312A2.528 2.528 0 0124 15.165a2.528 2.528 0 01-2.52 2.521h-6.313z"/></svg>
+                        Slack
+                    </div>
+                    <div class="integration-logo">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.2819 9.8211a5.9847 5.9847 0 00-.5157-4.9108 6.0462 6.0462 0 00-6.5098-2.9A6.0651 6.0651 0 0011.4597.0764a5.9847 5.9847 0 00-5.6002 3.8648A6.0462 6.0462 0 001.667 9.8211a5.9847 5.9847 0 00.7361 4.9108 6.0462 6.0462 0 006.5098 2.9002A5.9847 5.9847 0 0012.5403 23.9236a5.9847 5.9847 0 005.6002-3.8648 6.0462 6.0462 0 004.1924-5.8789 5.9847 5.9847 0 00-.051-.3588z"/></svg>
+                        HubSpot
+                    </div>
+                    <div class="integration-logo">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2.824a9.176 9.176 0 110 18.352 9.176 9.176 0 010-18.352z"/></svg>
+                        Salesforce
+                    </div>
+                    <div class="integration-logo">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L1.608 6v12L12 24l10.392-6V6zm0 2.304l8.304 4.8v9.6L12 21.504l-8.304-4.8v-9.6z"/></svg>
+                        Segment
+                    </div>
+                    <div class="integration-logo">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
+                        Zapier
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CTA Section -->
-    <section class="cta-section">
+    <section class="cta" id="cta">
         <div class="container">
-            <h2>Ready to Turn Your Rejection<br>Into Your Comeback?</h2>
-            <p>Get instant access to our founder community and application analysis tool.</p>
-            <div class="newsletter-form-container">
-                <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/cmj1xswu3046v3b0i1u85mc8q" method="POST">
-                    <input 
-                        class="newsletter-form-input" 
-                        placeholder="you@example.com" 
-                        required 
-                        type="email" 
-                        name="email"
-                    >
-                    <button type="submit" class="newsletter-form-button">Join Waitlist</button>
-                    <button type="button" class="newsletter-loading-button">Please wait...</button>
+            <div class="cta-content animate-on-scroll">
+                <h2>Stop letting hot leads go cold</h2>
+                <p>Join the waitlist and be the first to close deals in real-time.</p>
+                <form class="cta-form" onsubmit="handleSubmit(event)">
+                    <input type="email" placeholder="Enter your work email" required>
+                    <button type="submit" class="btn-primary">Get Early Access</button>
                 </form>
-                <div class="newsletter-success">
-                    <p class="newsletter-success-message">🎉 Thanks! We'll be in touch!</p>
-                </div>
-                <div class="newsletter-error">
-                    <p class="newsletter-error-message">Oops! Something went wrong, please try again</p>
-                </div>
-                <button class='newsletter-back-button' type='button'>
-                    ← Back
-                </button>
+                <p class="cta-alternative">Or <a href="#">schedule a demo</a> to see Regata in action</p>
             </div>
         </div>
     </section>
-    
+
     <!-- Footer -->
-    <footer class="footer">
+    <footer>
         <div class="container">
-            <p>&copy; 2025 YC Rejection Analysis. Built by founders, for founders.</p>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-mark">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        regata
+                    </a>
+                    <p>Real-time lead intelligence for founders who close deals themselves. Stop analyzing the past. Start winning the present.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Regata. All rights reserved.</p>
+                <div class="footer-badges">
+                    <div class="footer-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0110 0v4"/>
+                        </svg>
+                        SOC 2 Compliant
+                    </div>
+                    <div class="footer-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        GDPR Ready
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
-    
-    <!-- LOOPS.SO JAVASCRIPT -->
+
     <script>
-        // Counter animation
-        let count = 247;
-        setInterval(() => {
-            count += Math.floor(Math.random() * 2);
-            const counterEl = document.getElementById('applicationsCount');
-            if (counterEl) counterEl.textContent = count;
-        }, 30000);
+        // Visitor simulation data
+        const visitors = [
+            { name: 'Anonymous', company: 'Vercel', page: '/pricing', avatar: '🔮', status: 'Browsing', hot: false },
+            { name: 'Anonymous', company: 'Stripe', page: '/features', avatar: '💜', status: 'Active', hot: false },
+            { name: 'Anonymous', company: 'Linear', page: '/docs', avatar: '🔷', status: 'Reading', hot: false },
+            { name: 'Sarah', company: 'Stripe', page: '/pricing', avatar: '⚡', status: 'HIGH INTENT', hot: true },
+            { name: 'Anonymous', company: 'Notion', page: '/blog', avatar: '📝', status: 'Browsing', hot: false },
+            { name: 'Anonymous', company: 'Figma', page: '/integrations', avatar: '🎨', status: 'Exploring', hot: false },
+            { name: 'Mike', company: 'Vercel', page: '/pricing', avatar: '🚀', status: 'HIGH INTENT', hot: true },
+            { name: 'Anonymous', company: 'Datadog', page: '/about', avatar: '🐕', status: 'Browsing', hot: false },
+        ];
 
-        // Loops.so form handling
-        function submitHandler(event) {
-            event.preventDefault();
-            var container = event.target.closest('.newsletter-form-container');
-            var form = container.querySelector(".newsletter-form");
-            var formInput = container.querySelector(".newsletter-form-input");
-            var success = container.querySelector(".newsletter-success");
-            var errorContainer = container.querySelector(".newsletter-error");
-            var errorMessage = container.querySelector(".newsletter-error-message");
-            var backButton = container.querySelector(".newsletter-back-button");
-            var submitButton = container.querySelector(".newsletter-form-button");
-            var loadingButton = container.querySelector(".newsletter-loading-button");
+        let currentVisitors = [];
+        let visitorIndex = 0;
 
-            const rateLimit = () => {
-                errorContainer.style.display = "flex";
-                errorMessage.innerText = "Too many signups, please try again in a little while";
-                submitButton.style.display = "none";
-                formInput.style.display = "none";
-                backButton.style.display = "block";
+        function createVisitorCard(visitor, delay = 0) {
+            const card = document.createElement('div');
+            card.className = `visitor-card ${visitor.hot ? 'hot' : ''}`;
+            card.style.animationDelay = `${delay}ms`;
+            card.innerHTML = `
+                <div class="visitor-left">
+                    <div class="visitor-avatar">${visitor.avatar}</div>
+                    <div class="visitor-info">
+                        <h4>${visitor.name} from ${visitor.company}</h4>
+                        <p>Session: ${Math.floor(Math.random() * 5) + 1}m ${Math.floor(Math.random() * 59)}s</p>
+                    </div>
+                </div>
+                <div class="visitor-right">
+                    <div class="visitor-page">${visitor.page}</div>
+                    <div class="visitor-status">
+                        <span class="dot"></span>
+                        ${visitor.status}
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function initVisitorStream() {
+            const stream = document.getElementById('visitorStream');
+            const notification = document.getElementById('notification');
+            
+            // Initial visitors
+            for (let i = 0; i < 3; i++) {
+                const visitor = visitors[i];
+                stream.appendChild(createVisitorCard(visitor, i * 100));
+                currentVisitors.push(visitor);
             }
+            visitorIndex = 3;
 
-            var time = new Date();
-            var timestamp = time.valueOf();
-            var previousTimestamp = localStorage.getItem("loops-form-timestamp");
-
-            if (previousTimestamp && Number(previousTimestamp) + 60000 > timestamp) {
-                rateLimit();
-                return;
-            }
-            localStorage.setItem("loops-form-timestamp", timestamp);
-
-            submitButton.style.display = "none";
-            loadingButton.style.display = "flex";
-
-            var formBody = "userGroup=&mailingLists=&email=" + encodeURIComponent(formInput.value);
-
-            fetch(event.target.action, {
-                method: "POST",
-                body: formBody,
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-            })
-            .then((res) => [res.ok, res.json(), res])
-            .then(([ok, dataPromise, res]) => {
-                if (ok) {
-                    success.style.display = "flex";
-                    form.reset();
-                } else {
-                    dataPromise.then(data => {
-                        errorContainer.style.display = "flex";
-                        errorMessage.innerText = data.message ? data.message : res.statusText;
-                    });
+            // Add new visitors periodically
+            setInterval(() => {
+                if (currentVisitors.length >= 5) {
+                    const firstCard = stream.firstChild;
+                    if (firstCard) {
+                        firstCard.style.opacity = '0';
+                        firstCard.style.transform = 'translateX(-20px)';
+                        setTimeout(() => firstCard.remove(), 300);
+                        currentVisitors.shift();
+                    }
                 }
-            })
-            .catch(error => {
-                if (error.message === "Failed to fetch") {
-                    rateLimit();
-                    return;
+
+                const newVisitor = visitors[visitorIndex % visitors.length];
+                const card = createVisitorCard(newVisitor);
+                stream.appendChild(card);
+                currentVisitors.push(newVisitor);
+                visitorIndex++;
+
+                // Show notification for hot leads
+                if (newVisitor.hot) {
+                    notification.querySelector('p').textContent = `${newVisitor.name} from ${newVisitor.company} is ready to buy`;
+                    notification.classList.add('visible');
+                    setTimeout(() => {
+                        notification.classList.remove('visible');
+                    }, 4000);
                 }
-                errorContainer.style.display = "flex";
-                if (error.message) errorMessage.innerText = error.message;
-                localStorage.setItem("loops-form-timestamp", '');
-            })
-            .finally(() => {
-                formInput.style.display = "none";
-                loadingButton.style.display = "none";
-                backButton.style.display = "block";
+            }, 3000);
+        }
+
+        // Scroll animations
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
             });
+
+            elements.forEach(el => observer.observe(el));
         }
 
-        function resetFormHandler(event) {
-            var container = event.target.closest('.newsletter-form-container');
-            var formInput = container.querySelector(".newsletter-form-input");
-            var success = container.querySelector(".newsletter-success");
-            var errorContainer = container.querySelector(".newsletter-error");
-            var errorMessage = container.querySelector(".newsletter-error-message");
-            var backButton = container.querySelector(".newsletter-back-button");
-            var submitButton = container.querySelector(".newsletter-form-button");
-
-            success.style.display = "none";
-            errorContainer.style.display = "none";
-            errorMessage.innerText = "Oops! Something went wrong, please try again";
-            backButton.style.display = "none";
-            formInput.style.display = "flex";
-            submitButton.style.display = "flex";
+        // Form handling
+        function handleSubmit(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input').value;
+            alert(`Thanks! We'll be in touch at ${email}`);
+            e.target.reset();
         }
 
-        // Initialize all forms
-        var formContainers = document.getElementsByClassName("newsletter-form-container");
-        for (var i = 0; i < formContainers.length; i++) {
-            var formContainer = formContainers[i];
-            var handlersAdded = formContainer.classList.contains('newsletter-handlers-added');
-            if (handlersAdded) continue;
-            formContainer.querySelector(".newsletter-form").addEventListener("submit", submitHandler);
-            formContainer.querySelector(".newsletter-back-button").addEventListener("click", resetFormHandler);
-            formContainer.classList.add("newsletter-handlers-added");
-        }
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initVisitorStream();
+            handleScrollAnimations();
+        });
     </script>
 </body>
 </html>
